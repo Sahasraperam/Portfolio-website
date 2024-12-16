@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="img/fav.png" sizes="32x32" />
+    <title>portfolio</title>
+    
+    <link rel="stylesheet" href="/css/portifolio.css" />
+  </head>
+  <body>
+    <div class="hero">
+      <nav>
+        <img src="/image.png" class="logo" />
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="pages/about.html">About Me</a></li></li>
+          <li><a href="pages/service.html">Projects</a></li>
+          <li><a href="pages/contact.html">Contact</a></li>
+        </ul>
+        <a href="pages/resume.html" class="btn">Resume</a>
+      </nav>
+
+      <div class="content">
+        <span class="title">portifolio  </span>
+        <h1>Hello, I’m <span>Sahasra</span></h1> 
+        <p>
+          As a dedicated Computer Science undergraduate specializing in Cybersecurity at SRM University
+        </p>
+        <a href="/resume.pdf" id="downloadBtn" class="btn" download="/resume.pdf" >Download Resume</a>
+        <!-- <button id="downloadBtn" class="btn">Download Resume</button> -->
+  
+      </div>
+
+      <div class="right-content">
+        <img src="/img/blacpic.jpg" alt="Sahasra's Picture" class="profile-picture" />
+        <div class="home_shadow"></div>
+      </div>
+    
+    </div>
+  </body>
+
+  
+  <script>
+    document.getElementById('downloadBtn').addEventListener('click', async function () {
+      try {
+        // Fetch the resume HTML content
+        const htmlResponse = await fetch('/pages/resume.html');
+        if (!htmlResponse.ok) throw new Error('Resume file not found!');
+        const htmlContent = await htmlResponse.text();
+
+        // Fetch the CSS content
+        const cssResponse = await fetch('/css/Resume.css');
+        if (!cssResponse.ok) throw new Error('CSS file not found!');
+        const cssContent = await cssResponse.text();
+
+        // Embed CSS into the HTML content
+        const styledHtmlContent = `
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8" />
+            <title>Resume - Sahasra</title>
+            <style>
+              ${cssContent}
+            </style>
+          </head>
+          <body>
+            ${htmlContent}
+          </body>
+          </html>
+        `;
+
+        // Create a Blob for downloading
+        const blob = new Blob([styledHtmlContent], { type: 'text/html' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'Resume_Sahasra_with_Styles.html';
+        link.click();
+      } catch (error) {
+        console.error('Error while downloading the resume:', error);
+        alert(`Error: ${error.message}`);
+      }
+    });
+  </script>
+</html>
